@@ -1,4 +1,5 @@
 const User = require('mongoose').model('User');
+const Article = require('mongoose').model('Article');
 const Role = require('mongoose').model('Role');
 const encryption = require('./../utilities/encryption');
 
@@ -97,5 +98,13 @@ module.exports = {
     logout: (req, res) => {
         req.logOut();
         res.redirect('/');
+    },
+
+    details: (req, res) => {
+        let id = req.params.id;
+
+        User.findById(id).then(user => {
+                res.render('user/details', {user: user});
+        });
     }
 };

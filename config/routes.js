@@ -23,4 +23,6 @@ module.exports = (app) => {
 
     app.get('/article/delete/:id', articleController.deleteGet);
     app.post('/article/delete/:id', articleController.deletePost);
+
+    app.get('/user/details/:id', userController.details);
 };
