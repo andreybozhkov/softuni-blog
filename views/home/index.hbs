@@ -10,6 +10,13 @@
                     <p>{{this.content}}
                     </p>
 
+                    <small>
+                        Tags:
+                        {{#each this.tags}}
+                            {{this}}{{#unless @last}}, {{/unless}}
+                        {{/each}}
+                    </small>
+
                     <small class="author">
                         {{this.author.fullName}}
                     </small>

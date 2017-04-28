@@ -23,6 +23,14 @@ module.exports = {
         }
 
         articleArgs.author = req.user.id;
+        let tagsString = articleArgs.tags;
+        let tagsStringNew = tagsString.replace(/\s+/g, "");
+        let tagsArr = tagsStringNew.split(',');
+        tagsArr = tagsArr.filter(function(x){
+            return (x !== (undefined || ''));
+        });
+        articleArgs.tags = tagsArr;
+
         Article.create(articleArgs).then(article => {
             req.user.articles.push(article.id);
             req.user.save(err => {
@@ -90,7 +98,15 @@ module.exports = {
         if (errorMsg) {
             res.render('article/edit', {error: errorMsg});
         } else {
-            Article.update({_id: id}, {$set: {title: articleArgs.title, content: articleArgs.content}})
+            let tagsString = articleArgs.tags;
+            let tagsStringNew = tagsString.replace(/\s+/g, "");
+            let tagsArr = tagsStringNew.split(',');
+            tagsArr = tagsArr.filter(function(x){
+                return (x !== (undefined || ''));
+            });
+            articleArgs.tags = tagsArr;
+
+            Article.update({_id: id}, {$set: {title: articleArgs.title, content: articleArgs.content, tags: articleArgs.tags}})
                 .then(updateStatus => {
                     res.redirect(`/article/details/${id}`);
                 })
