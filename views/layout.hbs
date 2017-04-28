@@ -21,7 +21,7 @@
                 {{#if user}}
                     <div class="navbar-collapse collapse">
                         <ul class="nav navbar-nav navbar-right">
-                            <li><a href="/user/details">Welcome({{user.email}})</a></li>
+                            <li><a href="/user/details/{{user.id}}">Welcome({{user.email}})</a></li>
                             <li><a href="/article/create">New Article</a></li>
                             <li><a href="/user/logout">Logout</a></li>
                         </ul>
@@ -45,7 +45,7 @@
 </body>
 <footer>
     <div class="container modal-footer">
-        <p>&copy; 2016 - Software University Foundation</p>
+        <p>&copy; 2017 - Software University Foundation</p>
     </div>
 </footer>
 </html>
