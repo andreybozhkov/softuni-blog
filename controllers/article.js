@@ -47,23 +47,16 @@ module.exports = {
     details: (req, res) => {
         let id = req.params.id;
 
-        Article.findById(id).populate('author').then(article => {
-            let commentsForArticle = [];
-            for (let i=0; i < article.comments.length; i++){
-                Comment.findById(article.comments[i]).then(comment => {
-                    commentsForArticle.push(comment);
-                });
-            }
-
+        Article.findById(id).populate('comments').then(article => {
             if (!req.user) {
-                res.render('article/details', {article: article, isUserAuthorized: false, commentsForArticle: commentsForArticle});
+                res.render('article/details', {article: article, isUserAuthorized: false});
                 return;
             }
 
             req.user.isInRole('Admin').then(isAdmin => {
                let isUserAuthorized = isAdmin || req.user.isAuthor(article);
 
-               res.render('article/details', {article: article, isUserAuthorized: isUserAuthorized, commentsForArticle: commentsForArticle});
+               res.render('article/details', {article: article, isUserAuthorized: isUserAuthorized});
             });
         })
     },
