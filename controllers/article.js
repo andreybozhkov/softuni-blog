@@ -1,4 +1,5 @@
 const Article = require('mongoose').model('Article');
+const Comment = require('mongoose').model('Comment');
 
 module.exports = {
     createGet: (req, res) => {
@@ -47,15 +48,22 @@ module.exports = {
         let id = req.params.id;
 
         Article.findById(id).populate('author').then(article => {
+            let commentsForArticle = [];
+            for (let i=0; i < article.comments.length; i++){
+                Comment.findById(article.comments[i]).then(comment => {
+                    commentsForArticle.push(comment);
+                });
+            }
+
             if (!req.user) {
-                res.render('article/details', {article: article, isUserAuthorized: false});
+                res.render('article/details', {article: article, isUserAuthorized: false, commentsForArticle: commentsForArticle});
                 return;
             }
 
             req.user.isInRole('Admin').then(isAdmin => {
                let isUserAuthorized = isAdmin || req.user.isAuthor(article);
 
-               res.render('article/details', {article: article, isUserAuthorized: isUserAuthorized});
+               res.render('article/details', {article: article, isUserAuthorized: isUserAuthorized, commentsForArticle: commentsForArticle});
             });
         })
     },

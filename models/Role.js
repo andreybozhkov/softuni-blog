@@ -1,7 +1,3 @@
-/**
- * Created by Ceco on 2.4.2017 г..
- */
-
 const mongoose = require('mongoose');
 
 let roleSchema = mongoose.Schema({
